@@ -385,40 +385,6 @@ summary:hover {
 }
 </style>
 
-
-<style id="buttons-spacing-fix">
-/* General spacing for button containers */
-.action-buttons-inline, .photos-btn, .maps-btn, .waze-btn, .action-btn, .pill {
-  margin-bottom: 8px;
-}
-
-/* Add vertical gap between rows of buttons */
-.action-buttons-inline {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-/* For mobile: ensure buttons wrap nicely with space underneath */
-@media (max-width: 768px) {
-  .action-buttons-inline {
-    justify-content: flex-start;
-    gap: 8px 8px; /* row-gap column-gap */
-    margin-bottom: 12px;
-  }
-  .action-buttons-inline > * {
-    flex: 1 1 auto;
-    min-width: calc(50% - 8px); /* two per row on mobile, but wrap */
-    text-align: center;
-  }
-}
-
-/* Ensure standalone buttons (e.g., Maps/Waze/Snimki) have bottom margin */
-button, a.button, .btn-top {
-  margin-bottom: 8px;
-}
-</style>
-
 </head>
 <body>
 <!-- TOP NAV -->
