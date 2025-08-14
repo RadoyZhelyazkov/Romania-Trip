@@ -377,6 +377,111 @@ html { font-size: 16px; }
 :root[data-theme="dark"] .card[data-day] .sec{ background: rgba(16,22,33,0.75); }
 </style>
 
+
+<style id="mobile-city-and-top-fixes">
+/* ===== Back-to-top: show on mobile after scroll, larger touch target ===== */
+.btn-top{
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+  transform: translateY(6px);
+}
+.btn-top.is-visible{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+@media (max-width: 640px){
+  .btn-top{
+    right: 14px;
+    bottom: 14px;
+    padding: 12px 14px;
+    font-size: 14px;
+    border-radius: 999px;
+  }
+}
+
+/* ===== City sections: improve wrapping, measure and readability on phones ===== */
+@media (max-width: 800px){
+  .hline{ flex-wrap: wrap; }
+  .hline .i{ width: auto; }
+  .hline h2{ margin: 0; }
+  .hline h2 .action-buttons-inline{ gap: 8px; }
+  .sec.city{ padding: 14px; }
+  .sec.city p, .sec.city ul, .sec.city ol{ max-width: 72ch; }
+  .sec.city p{ line-height: 1.75; }
+  .sec.city .hr{ margin: 14px 0; }
+  .city-maps-btn{ white-space: nowrap; }
+}
+
+/* Reduce chance of overflow from long links/buttons inside headings */
+@media (max-width: 480px){
+  .hline h2 .action-buttons-inline{ display: flex; flex-wrap: wrap; }
+  .action-btn, .waze-btn, .maps-btn{ font-size: 12px; padding: 6px 8px; }
+}
+
+/* Optional: soften section backgrounds slightly on mobile for contrast */
+@media (max-width: 640px){
+  .card[data-day] .sec{ background: rgba(255,255,255,0.82); }
+  :root[data-theme="dark"] .card[data-day] .sec{ background: rgba(16,22,33,0.82); }
+}
+</style>
+
+
+<style id="city-responsive-hardening">
+/* ===== Stronger responsiveness for .sec.city ===== */
+
+/* Avoid overflow from long tokens/links */
+.sec.city{ overflow-wrap: anywhere; word-break: break-word; }
+
+/* Stack the heading and its inline buttons nicely on phones */
+.sec.city .hline{ align-items: flex-start; gap: 10px; }
+@media (max-width: 900px){
+  .sec.city{ padding: 14px; }
+  .sec.city .hline{ flex-wrap: wrap; }
+  .sec.city .hline h2{
+    display: block;
+    margin: 0;
+    line-height: 1.2;
+  }
+  .sec.city .hline h2 .action-buttons-inline{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .sec.city .action-btn,
+  .sec.city .waze-btn,
+  .sec.city .maps-btn,
+  .sec.city .city-maps-btn{
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  .sec.city p, .sec.city li{
+    font-size: clamp(14px, 2.8vw, 16px);
+  }
+  .sec.city p{ max-width: 75ch; line-height: 1.75; }
+  .sec.city .hr{ margin: 14px 0; }
+}
+
+/* On very narrow screens, allow buttons to take a row each if needed */
+@media (max-width: 520px){
+  .sec.city .hline h2 .action-buttons-inline{
+    width: 100%;
+  }
+  .sec.city .action-btn,
+  .sec.city .waze-btn,
+  .sec.city .maps-btn,
+  .sec.city .city-maps-btn{
+    flex: 1 1 auto;
+  }
+}
+
+/* Tidy subheadings & lists spacing in city sections */
+.sec.city h3{ margin: 14px 0 8px; }
+.sec.city .list{ margin-left: 18px; }
+</style>
+
 </head>
 <body>
 <!-- TOP NAV -->
@@ -1137,6 +1242,23 @@ html { font-size: 16px; }
         btn.textContent = (mode==='dark' ? '☀️ Светла тема' : '🌙 Тъмна тема');
       }, { once:false });
     }
+  }
+})();
+</script>
+
+
+<script id="mobile-top-button-logic">
+(function(){
+  // Back-to-top visibility after scroll on mobile
+  var topBtn = document.querySelector('.btn-top');
+  if(topBtn){
+    var toggle = function(){
+      var show = window.scrollY > 240;
+      if(show){ topBtn.classList.add('is-visible'); }
+      else{ topBtn.classList.remove('is-visible'); }
+    };
+    toggle();
+    window.addEventListener('scroll', toggle, { passive: true });
   }
 })();
 </script>
