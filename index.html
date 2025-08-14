@@ -272,11 +272,65 @@ summary::-webkit-details-marker { display: none; }
 .action-buttons-inline .action-sep {
   margin: 0;
 }
+</style><style id="responsive-enhancements">
+/* === Responsive Enhancements (wrap variant) === */
+
+/* Base typography */
+:root { --mobile-padding: 12px; }
+body { -webkit-text-size-adjust: 100%; }
+
+/* Page padding on phones */
+@media (max-width: 600px){
+  .wrap { padding-left: var(--mobile-padding) !important; padding-right: var(--mobile-padding) !important; }
+  .nav .row { gap: 8px !important; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .pill { padding: 10px 14px; font-size: 14px; }
+  .day-banner h2 { font-size: 18px; line-height: 1.3; }
+  h2 { font-size: 18px; }
+  .sec h2 { font-size: 17px; }
+  summary { font-size: 15px; }
+}
+
+/* Grid stacks to single column on phones */
+@media (max-width: 780px){
+  .grid { display: grid; grid-template-columns: 1fr !important; gap: 14px !important; }
+  .card { padding: 14px !important; }
+}
+
+/* Tables become horizontally scrollable if needed */
+.table { width: 100%; }
+@media (max-width: 780px){
+  .table { display: block; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+  .table thead, .table tbody, .table tr { width: max-content; }
+  .table td, .table th { padding: 8px 10px; }
+}
+
+/* Action buttons: wrap to next line when needed */
+.action-buttons-inline { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.action-buttons-inline .action-sep { margin: 0; }
+
+/* Prevent oversized long links breaking layout */
+a { word-break: break-word; }
+
+/* Improve details tap targets & spacing */
+details { padding: 8px 0; }
+summary { padding: 4px 2px; }
+
+/* Navigation: ensure stickiness doesn't cover anchors */
+.anchor { scroll-margin-top: 84px; }
+
+/* Cards spacing adjustments on phones */
+@media (max-width: 600px){
+  .card[data-day] { margin-bottom: 16px; }
+  .sec { padding: 10px; border-radius: 12px; }
+}
+
+/* Make "pill" buttons and day-top buttons thumb-friendly */
+.pill, .btn-day-top { min-height: 36px; line-height: 1.2; }
 </style></head>
 <body>
 <!-- TOP NAV -->
 <div class="nav">
-<div class="row">
+<div class="row" style="display:flex; align-items:center; gap:10px;">
 <div style="font-weight:700">Трансилвания 2025 · One‑Page Пътеводител</div>
 <div>
 <a class="pill" href="#d16">16.08 · Brașov</a>
