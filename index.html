@@ -272,65 +272,116 @@ summary::-webkit-details-marker { display: none; }
 .action-buttons-inline .action-sep {
   margin: 0;
 }
-</style><style id="responsive-enhancements">
-/* === Responsive Enhancements (wrap variant) === */
-
-/* Base typography */
-:root { --mobile-padding: 12px; }
-body { -webkit-text-size-adjust: 100%; }
-
-/* Page padding on phones */
-@media (max-width: 600px){
-  .wrap { padding-left: var(--mobile-padding) !important; padding-right: var(--mobile-padding) !important; }
-  .nav .row { gap: 8px !important; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .pill { padding: 10px 14px; font-size: 14px; }
-  .day-banner h2 { font-size: 18px; line-height: 1.3; }
-  h2 { font-size: 18px; }
-  .sec h2 { font-size: 17px; }
-  summary { font-size: 15px; }
+</style>
+<style id="responsive-mobile">
+/* ==== Global fluid typography & spacing ==== */
+html { font-size: 16px; }
+@media (max-width: 960px){
+  :root{
+    --wrap-pad: 16px;
+  }
+  .wrap{ padding: 16px var(--wrap-pad) 120px; }
+  h1{ font-size: clamp(24px, 4.2vw, 36px); }
+  h2{ font-size: clamp(18px, 3.4vw, 26px); }
+  h3{ font-size: clamp(16px, 2.9vw, 20px); }
+  body, p, li, table, td, th { font-size: clamp(14px, 2.7vw, 16px); }
 }
 
-/* Grid stacks to single column on phones */
-@media (max-width: 780px){
-  .grid { display: grid; grid-template-columns: 1fr !important; gap: 14px !important; }
-  .card { padding: 14px !important; }
+/* ==== Navigation tweaks ==== */
+.nav .row{
+  gap: 8px;
+}
+@media (max-width: 960px){
+  .nav .row{
+    padding: 8px;
+    row-gap: 8px;
+  }
+  .nav .row > div:nth-child(2){
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    scrollbar-width: thin;
+    max-width: 100%;
+  }
+  .pill{
+    padding: 10px 12px;
+    font-size: 12px;
+    line-height: 1;
+  }
 }
 
-/* Tables become horizontally scrollable if needed */
-.table { width: 100%; }
-@media (max-width: 780px){
-  .table { display: block; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
-  .table thead, .table tbody, .table tr { width: max-content; }
-  .table td, .table th { padding: 8px 10px; }
+/* ==== Buttons / touch targets ==== */
+.pill, .btn-day-top, .action-btn, .waze-btn, .day-banner-maps-btn, .city-maps-btn, .maps-btn, summary{
+  min-height: 40px;
+  align-items: center;
+}
+.action-buttons-inline{ gap: 8px; }
+@media (max-width: 640px){
+  .action-buttons-inline{
+    flex-wrap: wrap;
+    gap: 6px;
+  }
 }
 
-/* Action buttons: wrap to next line when needed */
-.action-buttons-inline { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.action-buttons-inline .action-sep { margin: 0; }
-
-/* Prevent oversized long links breaking layout */
-a { word-break: break-word; }
-
-/* Improve details tap targets & spacing */
-details { padding: 8px 0; }
-summary { padding: 4px 2px; }
-
-/* Navigation: ensure stickiness doesn't cover anchors */
-.anchor { scroll-margin-top: 84px; }
-
-/* Cards spacing adjustments on phones */
-@media (max-width: 600px){
-  .card[data-day] { margin-bottom: 16px; }
-  .sec { padding: 10px; border-radius: 12px; }
+/* ==== Cards / sections spacing for mobile ==== */
+@media (max-width: 960px){
+  .card, .sec{ border-radius: 14px; padding: 14px; }
+  .grid{ gap: 14px !important; }
+  .day-banner{ padding: 10px 12px; }
+  .day-banner .meta{ font-size: 12px; }
 }
 
-/* Make "pill" buttons and day-top buttons thumb-friendly */
-.pill, .btn-day-top { min-height: 36px; line-height: 1.2; }
-</style></head>
+/* ==== Tables: make horizontally scrollable on small screens ==== */
+.table{ width: 100%; border-collapse: collapse; }
+.table th, .table td{ padding: 10px 8px; }
+.table-responsive{ width: 100%; overflow-x: auto; }
+.table-responsive .table{ min-width: 640px; } /* let content breathe */
+
+/* Auto-wrap all .table elements in a .table-responsive at runtime (see JS) */
+
+/* ==== Details <summary> unify look & prevent conflicting earlier styles ==== */
+.card details > summary{
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px !important;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--card) 0%, var(--c-route) 100%) !important;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.card details > summary:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.12), 0 3px 6px rgba(0,0,0,0.08);
+}
+.card details .details-body{ padding: 8px 0 0 0; }
+
+/* ==== Sticky top button on mobile keeps distance from screen edge ==== */
+@media (max-width: 640px){
+  .btn-top{ right: 12px; bottom: 12px; padding: 10px 12px; }
+}
+
+/* ==== Optional dark theme (toggle with the new button; stays in one file) ==== */
+:root[data-theme="dark"]{
+  --bg:#0b1118; --text:#eaf2fb; --muted:#9bb1c7; --line:#132333;
+  --card:#0f1621; --card-border:#1a2a3b;
+  --c-city:#2a1d10; --c-route:#0f2434; --c-hours:#341a1a; --c-food:#0f2a1a; --c-parking:#1c1634; --c-schedule:#102219; --c-extra:#2a1024;
+  --accent:#59a7ff; --accent-2:#4bd6a5; --accent-3:#ff8b6a; --accent-4:#c792ff;
+}
+:root[data-theme="dark"] .nav{ background:#0b1118cc; }
+:root[data-theme="dark"] .card[data-day] .sec{ background: rgba(16,22,33,0.75); }
+</style>
+
+</head>
 <body>
 <!-- TOP NAV -->
 <div class="nav">
-<div class="row" style="display:flex; align-items:center; gap:10px;">
+<div class="row">
 <div style="font-weight:700">Трансилвания 2025 · One‑Page Пътеводител</div>
 <div>
 <a class="pill" href="#d16">16.08 · Brașov</a>
@@ -1034,5 +1085,61 @@ summary { padding: 4px 2px; }
   // Smooth anchor offset for sticky nav
   document.querySelectorAll('.anchor').forEach(a=>{ a.style.scrollMarginTop='100px'; });
 })();</script>
+
+<script id="responsive-mobile-js">
+(function(){
+  // 1) Table responsiveness: wrap .table in .table-responsive
+  document.querySelectorAll('.table').forEach(function(tbl){
+    if(tbl.closest('.table-responsive')) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'table-responsive';
+    tbl.parentNode.insertBefore(wrap, tbl);
+    wrap.appendChild(tbl);
+  });
+
+  // 2) Better details animation container if not already moved by existing script
+  document.querySelectorAll('details').forEach(function(d){
+    if(d.querySelector('.details-body')) return;
+    const kids = Array.from(d.childNodes);
+    const body = document.createElement('div'); body.className='details-body';
+    let pastSummary=false;
+    kids.forEach(function(n){
+      if(n.nodeType===1 && n.tagName==='SUMMARY'){ pastSummary=true; return; }
+      if(pastSummary){ body.appendChild(n); }
+    });
+    if(pastSummary){ d.appendChild(body); }
+  });
+
+  // 3) Simple theme toggle (fix undefined vars in original script)
+  var root = document.documentElement;
+  var key = 'trip-theme';
+  function setTheme(next){
+    var cur = root.getAttribute('data-theme') || 'light';
+    var theme = next || (cur==='dark' ? 'light':'dark');
+    root.setAttribute('data-theme', theme==='dark' ? 'dark' : 'light');
+    try{ localStorage.setItem(key, theme); }catch(e){}
+    return theme;
+  }
+  try{
+    var saved = localStorage.getItem(key);
+    if(saved){ root.setAttribute('data-theme', saved); }
+  }catch(e){}
+
+  // If the existing nav enhancement created a button with no text, label & wire it
+  var navRow = document.querySelector('.nav .row');
+  if(navRow){
+    var btn = navRow.querySelector('button');
+    if(btn){
+      btn.textContent = (root.getAttribute('data-theme')==='dark' ? '☀️ Светла тема' : '🌙 Тъмна тема');
+      btn.className = 'pill';
+      btn.addEventListener('click', function(){
+        var mode = setTheme();
+        btn.textContent = (mode==='dark' ? '☀️ Светла тема' : '🌙 Тъмна тема');
+      }, { once:false });
+    }
+  }
+})();
+</script>
+
 </body>
 </html>
